@@ -245,3 +245,71 @@ Before committing:
 - run relevant tests
 - verify no secrets are included
 
+## Skill Mapping
+
+Skills support the engineering workflow. They never replace, skip, or reorder it.
+
+### LOCATE
+Preferred skills:
+- First Principles Thinking
+- pdf:pdf when source artifacts are PDFs
+- documents:documents when source artifacts are Word documents
+
+### EXTRACT
+Preferred skills:
+- First Principles Thinking
+- pdf:pdf
+- documents:documents
+- spreadsheets:Spreadsheets
+- visualize:visualize
+
+### CONSTRAIN
+Preferred skills:
+- First Principles Thinking
+- openai-docs when OpenAI technology is involved
+- security skills only when security is relevant
+
+### PROMPT
+Preferred skills:
+- First Principles Thinking
+- openai-docs when relevant
+- visualize:visualize when system relationships need clarification
+
+GPT may support reasoning, interpretation, and prompt preparation.
+
+### GENERATE
+Primary executor:
+- Codex
+
+Supporting skills:
+- browser:control-in-app-browser when browser interaction is required
+- openai-docs when OpenAI integration is involved
+- security fix skills only for validated security findings
+
+### REVIEW
+Preferred skills:
+- First Principles Thinking
+- browser:control-in-app-browser
+- spreadsheets:Spreadsheets for traceability checks
+- security review skills only when security review is relevant
+
+### RECONCILE
+Preferred skills:
+- First Principles Thinking
+- visualize:visualize
+- spreadsheets:Spreadsheets
+- documents:documents
+- pdf:pdf
+
+## Skill Selection Rule
+
+Before invoking a Skill, identify:
+
+1. current workflow stage
+2. selected Skill
+3. why the Skill is relevant
+4. what artifact or evidence it will operate on
+
+If no Skill is necessary, continue without one.
+
+Never invoke a Skill merely because it is available.
