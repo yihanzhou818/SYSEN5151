@@ -1,0 +1,376 @@
+{
+  "dataset": {
+    "name": "StockLens course snapshot v1",
+    "mode": "illustrative-unverified",
+    "asOf": "2024-11-01",
+    "note": "Migrated user-supplied demonstration data. Per-value sources, lookback windows, volatility and sentiment derivations and future-return horizons have not been verified."
+  },
+  "snapshots": [
+    {
+      "date": "2024-02-02",
+      "event": "Early 2024 earnings cycle",
+      "description": "Compare the mega-cap technology group immediately after a dense week of earnings releases.",
+      "stocks": [
+        {
+          "ticker": "AAPL",
+          "name": "Apple",
+          "momentum": -1.2,
+          "volatility": 18.6,
+          "sentiment": 0.25,
+          "futureReturn": -3.9,
+          "path": [
+            100,
+            98,
+            99,
+            97,
+            96,
+            96.1
+          ],
+          "news": {
+            "date": "2024-02-01",
+            "source": "Apple Newsroom",
+            "title": "Apple reports first quarter results",
+            "summary": "Quarterly results and management commentary available at the research date.",
+            "url": "https://www.apple.com/newsroom/2024/02/apple-reports-first-quarter-results/"
+          }
+        },
+        {
+          "ticker": "MSFT",
+          "name": "Microsoft",
+          "momentum": 8.4,
+          "volatility": 20.2,
+          "sentiment": 0.72,
+          "futureReturn": 3.1,
+          "path": [
+            100,
+            101,
+            103,
+            102,
+            104,
+            103.1
+          ],
+          "news": {
+            "date": "2024-01-30",
+            "source": "Microsoft Investor Relations",
+            "title": "Microsoft Cloud strength drives second quarter results",
+            "summary": "Quarterly release highlighted cloud and AI demand.",
+            "url": "https://www.microsoft.com/en-us/Investor/earnings/FY-2024-Q2/press-release-webcast"
+          }
+        },
+        {
+          "ticker": "NVDA",
+          "name": "NVIDIA",
+          "momentum": 26.7,
+          "volatility": 42.8,
+          "sentiment": 0.81,
+          "futureReturn": 28.5,
+          "path": [
+            100,
+            105,
+            111,
+            118,
+            124,
+            128.5
+          ],
+          "news": {
+            "date": "2024-01-08",
+            "source": "NVIDIA Newsroom",
+            "title": "NVIDIA announces generative AI innovations at CES",
+            "summary": "Product announcements formed part of the evidence set available before the ranking date.",
+            "url": "https://nvidianews.nvidia.com/news/generative-ai-rtx-pcs-and-workstations"
+          }
+        },
+        {
+          "ticker": "AMZN",
+          "name": "Amazon",
+          "momentum": 10.1,
+          "volatility": 27.5,
+          "sentiment": 0.68,
+          "futureReturn": 6.6,
+          "path": [
+            100,
+            104,
+            103,
+            106,
+            105,
+            106.6
+          ],
+          "news": {
+            "date": "2024-02-01",
+            "source": "Amazon Investor Relations",
+            "title": "Amazon announces fourth quarter results",
+            "summary": "Release described revenue, operating income, and AWS performance.",
+            "url": "https://ir.aboutamazon.com/news-release/news-release-details/2024/Amazon.com-Announces-Fourth-Quarter-Results/default.aspx"
+          }
+        },
+        {
+          "ticker": "TSLA",
+          "name": "Tesla",
+          "momentum": -18.5,
+          "volatility": 49.3,
+          "sentiment": -0.34,
+          "futureReturn": -8.0,
+          "path": [
+            100,
+            96,
+            94,
+            95,
+            91,
+            92
+          ],
+          "news": {
+            "date": "2024-01-24",
+            "source": "Tesla Investor Relations",
+            "title": "Tesla Q4 2023 update",
+            "summary": "Quarterly update provided vehicle, margin, and outlook context.",
+            "url": "https://ir.tesla.com/#quarterly-disclosure"
+          }
+        }
+      ]
+    },
+    {
+      "date": "2024-05-03",
+      "event": "Spring 2024 earnings cycle",
+      "description": "A point-in-time comparison after major April and early-May company updates.",
+      "stocks": [
+        {
+          "ticker": "AAPL",
+          "name": "Apple",
+          "momentum": -6.1,
+          "volatility": 20.1,
+          "sentiment": 0.42,
+          "futureReturn": 12.4,
+          "path": [
+            100,
+            101,
+            104,
+            108,
+            111,
+            112.4
+          ],
+          "news": {
+            "date": "2024-05-02",
+            "source": "Apple Newsroom",
+            "title": "Apple reports second quarter results",
+            "summary": "Quarterly results, capital return, and management commentary.",
+            "url": "https://www.apple.com/newsroom/2024/05/apple-reports-second-quarter-results/"
+          }
+        },
+        {
+          "ticker": "MSFT",
+          "name": "Microsoft",
+          "momentum": 3.7,
+          "volatility": 19.8,
+          "sentiment": 0.66,
+          "futureReturn": 5.8,
+          "path": [
+            100,
+            102,
+            101,
+            104,
+            106,
+            105.8
+          ],
+          "news": {
+            "date": "2024-04-25",
+            "source": "Microsoft Investor Relations",
+            "title": "Microsoft Cloud strength drives third quarter results",
+            "summary": "Cloud performance and AI investment were visible at the research date.",
+            "url": "https://www.microsoft.com/en-us/Investor/earnings/FY-2024-Q3/press-release-webcast"
+          }
+        },
+        {
+          "ticker": "NVDA",
+          "name": "NVIDIA",
+          "momentum": 7.8,
+          "volatility": 48.5,
+          "sentiment": 0.73,
+          "futureReturn": 26.9,
+          "path": [
+            100,
+            107,
+            113,
+            118,
+            123,
+            126.9
+          ],
+          "news": {
+            "date": "2024-03-18",
+            "source": "NVIDIA Newsroom",
+            "title": "NVIDIA Blackwell platform arrives",
+            "summary": "The Blackwell platform announcement remained a major dated product catalyst.",
+            "url": "https://nvidianews.nvidia.com/news/blackwell-ai-computing-platform"
+          }
+        },
+        {
+          "ticker": "AMZN",
+          "name": "Amazon",
+          "momentum": 11.2,
+          "volatility": 25.4,
+          "sentiment": 0.61,
+          "futureReturn": 1.7,
+          "path": [
+            100,
+            99,
+            102,
+            101,
+            103,
+            101.7
+          ],
+          "news": {
+            "date": "2024-04-30",
+            "source": "Amazon Investor Relations",
+            "title": "Amazon announces first quarter results",
+            "summary": "Quarterly release included retail, advertising, and AWS performance.",
+            "url": "https://ir.aboutamazon.com/news-release/news-release-details/2024/Amazon.com-Announces-First-Quarter-Results/default.aspx"
+          }
+        },
+        {
+          "ticker": "TSLA",
+          "name": "Tesla",
+          "momentum": -13.8,
+          "volatility": 55.1,
+          "sentiment": -0.12,
+          "futureReturn": -1.9,
+          "path": [
+            100,
+            102,
+            99,
+            97,
+            100,
+            98.1
+          ],
+          "news": {
+            "date": "2024-04-23",
+            "source": "Tesla Investor Relations",
+            "title": "Tesla Q1 2024 update",
+            "summary": "Quarterly update included operational results and product roadmap commentary.",
+            "url": "https://ir.tesla.com/#quarterly-disclosure"
+          }
+        }
+      ]
+    },
+    {
+      "date": "2024-08-02",
+      "event": "Summer 2024 earnings cycle",
+      "description": "Compare the same companies after another full quarter of public disclosures.",
+      "stocks": [
+        {
+          "ticker": "AAPL",
+          "name": "Apple",
+          "momentum": 14.2,
+          "volatility": 22.5,
+          "sentiment": 0.56,
+          "futureReturn": 3.4,
+          "path": [
+            100,
+            97,
+            99,
+            101,
+            104,
+            103.4
+          ],
+          "news": {
+            "date": "2024-08-01",
+            "source": "Apple Newsroom",
+            "title": "Apple reports third quarter results",
+            "summary": "Quarterly results provided a synchronized evidence point.",
+            "url": "https://www.apple.com/newsroom/2024/08/apple-reports-third-quarter-results/"
+          }
+        },
+        {
+          "ticker": "MSFT",
+          "name": "Microsoft",
+          "momentum": 4.1,
+          "volatility": 23.0,
+          "sentiment": 0.53,
+          "futureReturn": -2.2,
+          "path": [
+            100,
+            96,
+            97,
+            99,
+            98,
+            97.8
+          ],
+          "news": {
+            "date": "2024-07-30",
+            "source": "Microsoft Investor Relations",
+            "title": "Microsoft Cloud strength drives fourth quarter results",
+            "summary": "Cloud growth and infrastructure investment shaped the dated evidence.",
+            "url": "https://www.microsoft.com/en-us/Investor/earnings/FY-2024-Q4/press-release-webcast"
+          }
+        },
+        {
+          "ticker": "NVDA",
+          "name": "NVIDIA",
+          "momentum": 25.5,
+          "volatility": 58.4,
+          "sentiment": 0.69,
+          "futureReturn": 9.5,
+          "path": [
+            100,
+            92,
+            97,
+            103,
+            107,
+            109.5
+          ],
+          "news": {
+            "date": "2024-06-02",
+            "source": "NVIDIA Newsroom",
+            "title": "NVIDIA announces Rubin platform roadmap",
+            "summary": "Architecture roadmap news remained part of the available context.",
+            "url": "https://nvidianews.nvidia.com/news/computex-2024"
+          }
+        },
+        {
+          "ticker": "AMZN",
+          "name": "Amazon",
+          "momentum": 2.4,
+          "volatility": 28.6,
+          "sentiment": 0.33,
+          "futureReturn": -4.8,
+          "path": [
+            100,
+            95,
+            96,
+            98,
+            94,
+            95.2
+          ],
+          "news": {
+            "date": "2024-08-01",
+            "source": "Amazon Investor Relations",
+            "title": "Amazon announces second quarter results",
+            "summary": "Quarterly release included segment performance and outlook.",
+            "url": "https://ir.aboutamazon.com/news-release/news-release-details/2024/Amazon.com-Announces-Second-Quarter-Results/default.aspx"
+          }
+        },
+        {
+          "ticker": "TSLA",
+          "name": "Tesla",
+          "momentum": 11.0,
+          "volatility": 62.2,
+          "sentiment": 0.05,
+          "futureReturn": -6.1,
+          "path": [
+            100,
+            94,
+            97,
+            92,
+            95,
+            93.9
+          ],
+          "news": {
+            "date": "2024-07-23",
+            "source": "Tesla Investor Relations",
+            "title": "Tesla Q2 2024 update",
+            "summary": "Quarterly operational and financial update available before the snapshot.",
+            "url": "https://ir.tesla.com/#quarterly-disclosure"
+          }
+        }
+      ]
+    }
+  ]
+}
