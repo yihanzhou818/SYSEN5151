@@ -12,6 +12,6 @@
 | UC.1.7 UI renders | dashboard_ui; frontend/index.html | Scores, explanation and dated evidence shown |
 | UC.1.8 user inspects | Human operator | Not falsely marked as automated completion |
 
-Formal functional requirement IDs await the appropriate requirement-definition increment. UC.1 identifiers are model action IDs, not invented requirements. Python return values mediate X.04-to-UI delivery through StockLens. The browser mirror runs in one process; neither mirror nor Python stub demonstrates real network access to providers. Report model diagrams remain authoritative for the agreed concept.
+The proposed stakeholder requirements SR-01–SR-08 are now recorded in SPEC.md and requirements/TRACEABILITY.md. Derived system-level functional requirement IDs still await definition and approval. UC.1 identifiers are model action IDs, not invented requirements. Python return values mediate X.04-to-UI delivery through StockLens. The browser mirror runs in one process; neither mirror nor Python stub demonstrates real network access to providers. Report model diagrams remain authoritative for the agreed concept.
 
 Remaining team decisions: scoring definitions and weights, data provenance/windows, service provider selection, real AI integration, exception flows in later work, human provenance review and pilot. Historical lab sentiment values and later returns remain illustrative pending provenance.
