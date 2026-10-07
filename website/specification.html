@@ -1,0 +1,604 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>System Specification — StockLens</title><meta name="description" content="StockLens stakeholder needs, requirements, model allocations and verified implementation status."><link rel="stylesheet" href="./app.css"><style>html{scroll-behavior:smooth;scroll-padding-top:100px}header{height:auto;min-height:68px;flex-wrap:wrap}header nav{display:flex;flex-wrap:wrap;align-items:center}header .nav-btn{height:auto;padding:20px 4px}.spec-hero{max-width:1320px;margin:auto;padding:60px 28px 32px}.spec-hero h1{font-size:clamp(34px,5vw,60px);letter-spacing:-.045em;line-height:1.1;margin:12px 0 20px}.spec-hero p{color:var(--muted);max-width:760px;font-size:17px}.spec-badges{display:flex;gap:10px;flex-wrap:wrap}.spec-badges span{padding:7px 12px;border:1px solid var(--line);border-radius:30px;color:var(--mint);font-size:12px}.spec-layout{max-width:1320px;margin:0 auto;padding:0 28px 70px;display:grid;grid-template-columns:220px minmax(0,1fr);gap:38px}.spec-toc{position:sticky;top:95px;align-self:start;max-height:calc(100vh - 120px);overflow:auto;padding:18px;border:1px solid var(--line);border-radius:12px;background:var(--panel)}.spec-toc strong{font-size:12px;color:var(--mint);text-transform:uppercase;letter-spacing:.1em}.spec-toc ul{list-style:none;padding:0;margin:12px 0}.spec-toc ul ul{display:none}.spec-toc a{display:block;color:var(--muted);text-decoration:none;padding:6px 0;font-size:13px}.spec-toc a:hover{color:var(--mint)}.spec-body{min-width:0;color:#cbd5e3;line-height:1.75}.spec-body h2{font-size:26px;color:var(--text);margin:42px 0 16px;padding-top:24px;border-top:1px solid var(--line);letter-spacing:-.025em}.spec-body h2:first-of-type{margin-top:24px}.spec-body h3{color:var(--text);font-size:18px;margin-top:28px}.spec-body a{color:var(--blue);text-underline-offset:3px}.spec-body strong{color:var(--text)}.spec-body li{margin:8px 0}.spec-body code{font-size:.86em;background:var(--panel2);padding:2px 5px;border-radius:4px;overflow-wrap:anywhere}.spec-body pre{overflow:auto;padding:20px;border:1px solid var(--line);border-radius:12px;background:var(--panel);line-height:1.5}.spec-body pre code{padding:0;background:none;overflow-wrap:normal}.table-scroll{overflow-x:auto;margin:24px 0;border:1px solid var(--line);border-radius:12px}.spec-body table{border-collapse:collapse;width:100%;font-size:13px;min-width:660px}.spec-body th{background:#17243a;color:var(--text);text-align:left;font-weight:700}.spec-body th,.spec-body td{padding:14px 16px;border-bottom:1px solid var(--line);vertical-align:top}.spec-body tr:nth-child(even){background:#0d1421}.spec-body td:first-child{color:var(--mint);font-weight:600}.spec-body blockquote{border-left:3px solid var(--mint);padding-left:18px}.spec-footer{color:var(--muted);font-size:12px;margin-top:40px}@media(max-width:900px){.spec-layout{grid-template-columns:1fr}.spec-toc{position:static;max-height:none}.spec-toc ul{display:flex;flex-wrap:wrap;gap:4px 18px}.spec-hero{padding-top:32px}.spec-layout{padding:0 18px 40px}.spec-hero{padding-left:18px;padding-right:18px}.spec-body h2{font-size:23px}}@media print{header,.spec-toc{display:none}body,.spec-body{background:white;color:black}.spec-layout{display:block}.spec-body h2,.spec-body h3,.spec-body strong,.spec-body td:first-child{color:black}.table-scroll{overflow:visible}.spec-body table{min-width:0}.spec-body th,.spec-body tr:nth-child(even){background:#eee}.spec-body pre{white-space:pre-wrap}.spec-hero p{color:#333}}</style></head>
+<body><!-- SPEC.md snapshot 2026-10-06; SHA256 87b91e78f5d60627c71d777606eceeffd5cf795d88cf0cd2f833e5d0d187dc4c -->
+<header><div class="brand"><span class="brand-mark">⌁</span><div>StockLens<small>System Definition</small></div></div><nav aria-label="Main navigation"><a class="nav-btn" href="./index.html">Research Lab</a><a class="nav-btn" href="./skeleton.html">UC.1 demo</a><a class="nav-btn active" aria-current="page" href="./specification.html">System Specification</a><a class="nav-btn" href="https://github.com/yihanzhou818/SYSEN5151/blob/main/SPEC.md">Source on GitHub ↗</a></nav></header>
+<div class="spec-hero"><div class="eyebrow">SYSEN 5151 · Group 29 · October 6, 2026</div><h1>System Specification</h1><p>From stakeholder needs to system behavior: the StockLens baseline, its model connections, and the evidence behind the current prototype.</p><div class="spec-badges"><span>6 stakeholder groups</span><span>8 needs → 8 requirements</span><span>Implementation status stated separately</span></div></div>
+<main class="spec-layout"><aside class="spec-toc" aria-label="On this page"><strong>On this page</strong><ul><li><a href="#baseline-and-authority">Baseline and authority</a></li><li><a href="#milestone-1-needs-and-acceptance-at-a-glance">Milestone 1: needs and acceptance at a glance</a></li><li><a href="#system-of-interest">System of Interest</a></li><li><a href="#stakeholders">Stakeholders</a></li><li><a href="#stakeholder-needs">Stakeholder Needs</a></li><li><a href="#functions">Functions</a></li><li><a href="#requirements">Requirements</a></li><li><a href="#interfaces">Interfaces</a></li><li><a href="#constraints">Constraints</a></li><li><a href="#architecture">Architecture</a></li><li><a href="#verification">Verification</a></li><li><a href="#validation">Validation</a></li><li><a href="#open-decisions-and-change-control">Open decisions and change control</a></li></ul></aside><article class="spec-body">
+<p>SYSEN 5151 · Group 29 · Repository baseline updated October 6, 2026</p>
+<h2 id="baseline-and-authority">Baseline and authority</h2>
+<p>This specification translates the team's <em>Stakeholder Needs and Requirements Definition</em> report, dated October 1, 2026, into a repository-readable baseline. The need and requirement statements below preserve the report's wording and identifiers. They are proposed stakeholder obligations, not claims of completed implementation or formal approval.</p>
+<p>Sources:</p>
+<ul>
+<li><a href="https://www.overleaf.com/project/6abc3c1cd54da187b6fd4a97">Stakeholder Needs and Requirements Definition report</a>: Sections 2.1–2.5, 3.1–3.3, and 4; current source reviewed October 6.</li>
+<li>Group 29, <em>Business or Mission Analysis</em>, September 19, 2026: inherited research scope and UC.1 behavioral baseline.</li>
+<li><a href="https://cloud.innoslate.com/cornell/p/659/diagrams">Innoslate project 659</a>: modeled needs, requirements and behavior. Allocation descriptions below follow the report's October 1 model review; they are not a new live model audit.</li>
+<li>SYSEN 5151 Lab Manual v3.0, Chapter 3, including Section 3.5: repository specification and product-build evidence.</li>
+<li>Implementation inspected at commit <code>eeb36197d684aa40338d6d271e8387611efbcb0b</code>; subsequent code changes require reconciliation.</li>
+</ul>
+<p>Read the target requirements separately from the current implementation status. This file does not approve previously unresolved parameters, create new functional requirement IDs, or mark stakeholder validation complete. Earlier repository documents describing requirement derivation as pending reflect the Chapter 2 increment; the SR baseline below now records the report's proposed requirements.</p>
+<h2 id="milestone-1-needs-and-acceptance-at-a-glance">Milestone 1: needs and acceptance at a glance</h2>
+<p>A student researcher preparing a two-stock discussion needs a consistent comparison, an explanation they can follow, and evidence they can inspect. StockLens sits between that researcher and external market, news and AI services. The target workflow returns a ranking and its supporting context; the researcher remains responsible for interpreting the result.</p>
+<p>The compact view below follows <strong>need → requirement → acceptance condition</strong>. These are summaries for navigation, not replacement requirement statements. The full wording appears under Stakeholder Needs and Requirements; assessment rules and evidence appear under Validation. Acceptance remains proposed and is distinct from the fixed-fixture checks that have passed.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Specification table"><table>
+<thead>
+<tr>
+<th>Need</th>
+<th>Traces to</th>
+<th>Acceptance summary</th>
+<th>Current evidence boundary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>N-01: consistent comparison</td>
+<td>SR-01 / MOE-01</td>
+<td>Both eligible stocks use the same analysis date and documented scoring configuration; proposed user-task target: at least 80% correct unassisted completion.</td>
+<td>The fixed fixture runs; eligible-universe and full scoring conformance are not established.</td>
+</tr>
+<tr>
+<td>N-02: understandable ranking</td>
+<td>SR-02 / MOE-02</td>
+<td>Explanation identifies the selected computed drivers and correct values; proposed target: at least 80% identify both requested drivers unassisted.</td>
+<td>Fixed or template explanations; no completed user assessment or real AI grounding check.</td>
+</tr>
+<tr>
+<td>N-03: inspectable evidence</td>
+<td>SR-03 / MOE-03</td>
+<td>Each assessed news claim has supporting evidence and required dates; proposed target: at least 80% locate sources and distinguish the three dates unassisted.</td>
+<td>Fixture source/date display is demonstrated; real source support is not validated.</td>
+</tr>
+<tr>
+<td>N-04: feasible delivery</td>
+<td>SR-04 / MOE-04</td>
+<td>UC.1 runs within the agreed environment, time and resource baseline.</td>
+<td>Nominal path checked; time/resource limits still require confirmation.</td>
+</tr>
+<tr>
+<td>N-05: reviewable traceability</td>
+<td>SR-05 / MOE-05</td>
+<td>All eight requirements link to needs, model entities, validation methods and evidence status.</td>
+<td>Report-derived links recorded; legacy repository records still need reconciliation.</td>
+</tr>
+<tr>
+<td>N-06: independent operation</td>
+<td>SR-06 / MOE-06</td>
+<td>A non-author completes startup, run, shutdown and handover or retirement without undocumented help.</td>
+<td>Run instructions exist; independent operator assessment is not complete.</td>
+</tr>
+<tr>
+<td>N-07: appropriate provider use</td>
+<td>SR-07 / MOE-07</td>
+<td>All in-scope provider use conforms to applicable access, retention and display conditions.</td>
+<td>Stub calls do not establish compliance for future real services.</td>
+</tr>
+<tr>
+<td>N-08: appropriate AI inputs</td>
+<td>SR-08 / MOE-08</td>
+<td>All assessed requests conform to an approved schema and exclude credentials and unnecessary personal information.</td>
+<td>Schema approval and an executable request gate remain open.</td>
+</tr>
+</tbody>
+</table></div>
+<p>The proposed 80% targets require confirmation of sample size and scoring rules. <strong>Not assessed is not a pass.</strong> This page does not certify satisfaction of SR-01–SR-08.</p>
+<h3 id="demonstrated-scope-and-deferred-work">Demonstrated scope and deferred work</h3>
+<p><strong>This milestone's demonstrated slice:</strong> the UC.1 fixed-fixture path, its participant order, fixture identity, and display of a ranking, explanation and source/date context. The browser research lab separately demonstrates illustrative weighted scoring; it is not a live market-data or AI integration.</p>
+<p><strong>Deferred implementation and assessment:</strong> real provider connections, a grounded AI explanation, approved request-schema enforcement, complete requirement-linked acceptance evidence, provider-use review and independent handover assessment. These remain obligations or decisions in the baseline; calling them deferred does not remove them from scope.</p>
+<p><strong>Outside the system baseline:</strong> automated trading, order execution, personalized portfolio management and intraday support. No response-time threshold is borrowed from another team's example.</p>
+<h2 id="system-of-interest">System of Interest</h2>
+<p>StockLens is an AI-assisted stock research and ranking platform for student researchers and beginning investors. A research user selects two stocks and an analysis date, obtains a comparison on a consistent basis, and inspects the ranking's explanation and dated supporting evidence. The purpose is to support research and understanding, not to prescribe investment decisions.</p>
+<p>The inherited target scope is up to 100 predefined U.S. stocks using daily market observations. The exact eligible universe and versioned scoring configuration remain open decisions. Automated trading, order execution, personalized portfolio management and intraday support are outside the baseline.</p>
+<p>The system boundary includes the Dashboard/UI and StockLens processing. The research user, market-data provider, news provider and AI model service interact across that boundary. Project delivery, evaluation and maintenance are lifecycle responsibilities; they are not additional steps in the user's nominal comparison sequence.</p>
+<h3 id="current-demonstrable-slice">Current demonstrable slice</h3>
+<p>The local FastAPI walking skeleton traverses UI → StockLens → market stub → news stub → ranking stub → AI stub → UI. It always returns fictional DEMO_A/DEMO_B data dated 2026-09-18, fixed scores 60/40, a fixed explanation and source FIXTURE-01. Changing the requested pair or date does not change or relabel that fixture.</p>
+<p><code>website/skeleton.html</code> is a JavaScript mirror of this fixed nominal path. The separate research interface in <code>website/index.html</code> includes deterministic weighted scoring and template explanations over illustrative data whose provenance is not yet verified. It is exploratory and does not silently expand this two-stock requirements baseline. GitHub Pages serves static files; it does not run the Python API.</p>
+<h2 id="stakeholders">Stakeholders</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Specification table"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Stakeholder</th>
+<th>Principal concern / role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ST-01</td>
+<td>Research users: students and beginning investors</td>
+<td>Comparable results, understandable drivers and inspectable evidence. Maya Chen and Daniel Brooks are scenario-based personas, not interviewed participants.</td>
+</tr>
+<tr>
+<td>ST-02</td>
+<td>StockLens project team</td>
+<td>Feasible delivery within agreed scope, time, skills and service resources.</td>
+</tr>
+<tr>
+<td>ST-03</td>
+<td>Course evaluators / project reviewers</td>
+<td>Traceable reasoning, model consistency and evidence that distinguishes plans from results.</td>
+</tr>
+<tr>
+<td>ST-04</td>
+<td>System maintainers</td>
+<td>Repeatable operation, handover or retirement without undocumented knowledge.</td>
+</tr>
+<tr>
+<td>ST-05</td>
+<td>Market-data and news providers</td>
+<td>Access, retention and display consistent with applicable service conditions.</td>
+</tr>
+<tr>
+<td>ST-06</td>
+<td>AI-service provider</td>
+<td>Appropriate analysis inputs through approved service access.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Research users have high interest and medium formal power. The team, evaluators and maintainers require close engagement; external providers have substantial dependency-related power but lower direct interest in the course submission. Provider conditions constrain the project team's behavior; providers are not assigned implementation of StockLens controls.</p>
+<h2 id="stakeholder-needs">Stakeholder Needs</h2>
+<p>These effective needs preserve the report's stakeholder wording. Each N-xx refines PN-xx with CTQ-xx and leads to SR-xx; the full primitive-needs and CTQ rationale remains in report Section 2.5.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Specification table"><table>
+<thead>
+<tr>
+<th>Need / source</th>
+<th>Effective need</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>N-01 / ST-01</td>
+<td>I need to compare two stocks on a common analysis date using a consistent indicator basis.</td>
+</tr>
+<tr>
+<td>N-02 / ST-01</td>
+<td>I need to understand a displayed ranking through the computed drivers that explain the difference between the stocks.</td>
+</tr>
+<tr>
+<td>N-03 / ST-01</td>
+<td>I need inspectable, dated evidence for the news claims used in my stock comparison.</td>
+</tr>
+<tr>
+<td>N-04 / ST-02</td>
+<td>We need an agreed core research workflow that our team can deliver within its available time, skills and service resources.</td>
+</tr>
+<tr>
+<td>N-05 / ST-03</td>
+<td>I need a traceable account of how each stakeholder requirement follows from a need and is supported by model and assessment evidence.</td>
+</tr>
+<tr>
+<td>N-06 / ST-04</td>
+<td>I need continuity of operation through instructions that another team member can follow without the original author's undocumented knowledge.</td>
+</tr>
+<tr>
+<td>N-07 / ST-05</td>
+<td>We need the project's use of our services and content to remain within the conditions applicable to the selected access arrangements.</td>
+</tr>
+<tr>
+<td>N-08 / ST-06</td>
+<td>We need the analysis request to contain only the inputs agreed for that task through the approved service access.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="functions">Functions</h2>
+<p>UC.1, <strong>Compare Stocks &amp; Evaluate Ranking</strong>, is the parent behavior (Innoslate entity 185145). The formal Use Case view is rooted at entity 199938. UC identifiers are model action identifiers, not substitute requirement IDs.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Specification table"><table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Modeled behavior</th>
+<th>Current implementation / responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UC.1.1</td>
+<td>Select stock pair and analysis date</td>
+<td>Research user operates <code>frontend/index.html</code>.</td>
+</tr>
+<tr>
+<td>UC.1.2</td>
+<td>Transmit evaluation request</td>
+<td><code>dashboard_ui.transmit_evaluation_request</code>; local <code>POST /compare</code>.</td>
+</tr>
+<tr>
+<td>UC.1.3</td>
+<td>Query external data feeds</td>
+<td><code>stocklens_system.query_external_data_feeds</code> calls both provider stubs.</td>
+</tr>
+<tr>
+<td>UC.1.4.1</td>
+<td>Return market data</td>
+<td><code>market_data_provider.return_market_data</code>; fictional fixed records.</td>
+</tr>
+<tr>
+<td>UC.1.4.2</td>
+<td>Return news evidence</td>
+<td><code>news_provider.return_news_evidence</code>; fictional fixed source.</td>
+</tr>
+<tr>
+<td>UC.1.5</td>
+<td>Calculate and normalize ranking scores</td>
+<td><code>stocklens_system.calculate_and_normalize_ranking_scores</code>; fixed values in the skeleton, not a real calculation.</td>
+</tr>
+<tr>
+<td>UC.1.6</td>
+<td>Synthesize grounded AI explanation</td>
+<td><code>ai_model_service.synthesize_grounded_ai_explanation</code>; fixed text, no AI call.</td>
+</tr>
+<tr>
+<td>UC.1.7</td>
+<td>Render comparison dashboard</td>
+<td><code>dashboard_ui</code> and frontend display scores, explanation and source information.</td>
+</tr>
+<tr>
+<td>UC.1.8</td>
+<td>Inspect drivers and evidence</td>
+<td>Human research-user activity; not automated acceptance.</td>
+</tr>
+</tbody>
+</table></div>
+<p>The report allocates SR-02 to UC.1.6 (186309) and UC.1.7 (186503), and SR-03 to UC.1.7. UC.1.8 is inspection, not the system's provision of explanation or evidence. The nominal implementation serializes the market and news calls before ranking.</p>
+<h3 id="lifecycle-and-request-control-allocations">Lifecycle and request-control allocations</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Specification table"><table>
+<thead>
+<tr>
+<th>Action / entity</th>
+<th>Intended responsibility</th>
+<th>Performer recorded in the report</th>
+<th>Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A-04 / 219105</td>
+<td>Deliver Bounded Research Demonstration; retain scope, limits and run evidence</td>
+<td>ST-02 project team (217610)</td>
+<td>SR-04, together with UC.1</td>
+</tr>
+<tr>
+<td>A-05 / 216873</td>
+<td>Maintain Requirements Traceability</td>
+<td>ST-02 project team</td>
+<td>SR-05</td>
+</tr>
+<tr>
+<td>A-06 / 217607</td>
+<td>Maintain Operating and Transition Procedure</td>
+<td>X.05 System Maintainer (199037), corresponding to ST-04</td>
+<td>SR-06</td>
+</tr>
+<tr>
+<td>A-07 / 217608</td>
+<td>Control Service and Content Use</td>
+<td>Project team and maintainer</td>
+<td>SR-07</td>
+</tr>
+<tr>
+<td>A-08 / 217609</td>
+<td>Control AI Analysis-Request Content</td>
+<td>StockLens System (171150)</td>
+<td>SR-08</td>
+</tr>
+</tbody>
+</table></div>
+<p>These Action IDs are distinct from BMA assumption IDs. A-04–A-07 are lifecycle work. UC.1.6's reported dependency on A-08 expresses an intended precondition; it does not demonstrate an implemented request gate or an added Activity/Sequence control-flow step. The current stub does not enforce an approved AI-request schema.</p>
+<h2 id="requirements">Requirements</h2>
+<p>The following statements are transcribed from report Section 3.1. SR-01–SR-03 and SR-08 specify system behavior; SR-04–SR-07 specify project delivery and support obligations.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Specification table"><table>
+<thead>
+<tr>
+<th>Requirement / origin</th>
+<th>Statement</th>
+<th>Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SR-01 / N-01</td>
+<td>StockLens shall display a comparison of two eligible stocks using a common analysis date and the same documented indicator and scoring configuration.</td>
+<td>Maya and Daniel need a common basis for interpreting the two results.</td>
+</tr>
+<tr>
+<td>SR-02 / N-02</td>
+<td>StockLens shall provide an explanation of each displayed ranking that identifies the ranking's main computed drivers and their corresponding indicator values.</td>
+<td>The explanation must connect the user's interpretation to the calculation, rather than substitute AI wording for scoring.</td>
+</tr>
+<tr>
+<td>SR-03 / N-03</td>
+<td>StockLens shall associate each displayed news claim with an inspectable supporting source identifier and publication date, alongside the analysis and market-data dates for the comparison.</td>
+<td>Inspectable evidence and distinct dates help the user assess support and freshness.</td>
+</tr>
+<tr>
+<td>SR-04 / N-04</td>
+<td>The StockLens project shall deliver an executable instance of the agreed UC.1 research workflow within the time and service-resource limits recorded in the demonstration baseline.</td>
+<td>Ben's delivery concern requires a bounded workflow that the team can finish with its available resources.</td>
+</tr>
+<tr>
+<td>SR-05 / N-05</td>
+<td>The StockLens project shall maintain a traceability record for each stakeholder requirement identifying its originating need, related model entities, validation method and evidence status.</td>
+<td>Elena needs to follow the reasoning and distinguish planned assessment from completed evidence.</td>
+</tr>
+<tr>
+<td>SR-06 / N-06</td>
+<td>The StockLens project shall provide an operating and transition guide enabling a team member other than its author to start, run and shut down the demonstration and carry out the documented handover or retirement procedure without undocumented instructions.</td>
+<td>Ben's maintenance concern extends beyond startup to continuity, transfer of responsibility and orderly shutdown.</td>
+</tr>
+<tr>
+<td>SR-07 / N-07</td>
+<td>The StockLens project shall conduct its use of each selected market-data and news service in accordance with the applicable access, retention and display conditions identified in its dated service-use record.</td>
+<td>Recording conditions alone does not meet the need; actual service and content use must conform to them.</td>
+</tr>
+<tr>
+<td>SR-08 / N-08</td>
+<td>StockLens shall restrict AI analysis-request content to the approved field schema, excluding credentials and unnecessary personal information from that content.</td>
+<td>Analysis inputs are limited to the explanation task; service authentication remains separate from analysis content.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="interpretation-and-current-coverage">Interpretation and current coverage</h3>
+<p>An eligible stock belongs to the agreed universe and has the inputs required by the scoring configuration. Analysis date, market-observation date and news-publication date have different meanings. Missing or differently dated inputs require an agreed rule. “Main computed drivers” must be selected from the actual score breakdown using a confirmed driver-selection rule; fluent text alone is insufficient.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Specification table"><table>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>Intended allocation</th>
+<th>Evidence available / acceptance gap</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SR-01</td>
+<td>UC.1</td>
+<td>Fixed two-stock path runs. Eligibility, real scoring configuration and user-task acceptance remain unverified.</td>
+</tr>
+<tr>
+<td>SR-02</td>
+<td>UC.1.6; UC.1.7</td>
+<td>Fixed explanation is displayed. Computed-driver explanation and user comprehension are not established.</td>
+</tr>
+<tr>
+<td>SR-03</td>
+<td>UC.1.7</td>
+<td>Fictional source ID and publication date appear. Real claim support, inspectability and all three displayed date types require assessment.</td>
+</tr>
+<tr>
+<td>SR-04</td>
+<td>UC.1; A-04</td>
+<td>A local nominal run is demonstrated. Confirmed time/resource limits and an acceptance run record are still needed.</td>
+</tr>
+<tr>
+<td>SR-05</td>
+<td>A-05</td>
+<td>Report contains all eight need/requirement mappings. Repository traceability and legacy documentation require synchronization and inspection.</td>
+</tr>
+<tr>
+<td>SR-06</td>
+<td>A-06</td>
+<td>Setup/run instructions exist. Independent operation plus a documented transition procedure has not been assessed.</td>
+</tr>
+<tr>
+<td>SR-07</td>
+<td>A-07</td>
+<td>Skeleton makes no real provider calls. Actual selected-service conditions and observed use have not been assessed.</td>
+</tr>
+<tr>
+<td>SR-08</td>
+<td>A-08</td>
+<td>No external AI request occurs. Approved schema, executable enforcement and payload acceptance evidence are not established.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="interfaces">Interfaces</h2>
+<h3 id="implemented-local-skeleton-contract-descriptive-not-a-new-requirement">Implemented local skeleton contract (descriptive, not a new requirement)</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Specification table"><table>
+<thead>
+<tr>
+<th>Boundary</th>
+<th>Inputs / outputs</th>
+<th>Present behavior and limits</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Browser → FastAPI</td>
+<td><code>POST /compare</code>; JSON strings <code>stock_a</code>, <code>stock_b</code>, <code>analysis_date</code></td>
+<td>All three fields are declared in <code>ComparisonQuery</code>. No explicit eligibility, distinct-stock or calendar-date validation is implemented.</td>
+</tr>
+<tr>
+<td>Dashboard → StockLens</td>
+<td><code>stock_pair</code>: two-element list; <code>analysis_date</code>: string</td>
+<td>The requested values are retained as <code>requested_query</code>.</td>
+</tr>
+<tr>
+<td>Market stub → StockLens</td>
+<td><code>fixture</code>, <code>stock_pair</code>, <code>analysis_date</code>, <code>observation_date</code>, <code>market_bars[{symbol, close}]</code></td>
+<td>Fixed fictional closes 100.0/80.0; currency is not declared. No real feed, refresh cadence or outage handling.</td>
+</tr>
+<tr>
+<td>News stub → StockLens</td>
+<td>List of <code>{id, published_at, title, excerpt}</code></td>
+<td>FIXTURE-01, date 2026-09-18; no real article or source URL.</td>
+</tr>
+<tr>
+<td>Ranking → AI stub</td>
+<td>Fixture identifiers, dates, <code>scores[{symbol, score, driver}]</code>, <code>sources</code></td>
+<td>Fixed scores 60/40 and generic driver; not approved real-service input schema.</td>
+</tr>
+<tr>
+<td>AI stub → StockLens</td>
+<td><code>{fixture, text, source_ids}</code></td>
+<td>Fixed text explicitly says no ranking algorithm or AI model ran.</td>
+</tr>
+<tr>
+<td>FastAPI → Browser</td>
+<td><code>{mode, requested_query, ranking, explanation}</code></td>
+<td>Mode is <code>walking-skeleton-fixed-fixture</code>; response displayed by <code>frontend/index.html</code>.</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>GET /</code> serves the local frontend. The browser mirror has no Python HTTP boundary. String dates in the fixture use YYYY-MM-DD, but the request model only declares a string. The response is a dictionary rather than an explicit validated response schema. The skeleton supplies no declared policy for nulls, stale observations, missing data, real-provider unavailability, retries or recovery. These limitations must not be represented as approved production behavior.</p>
+<h3 id="contracts-still-requiring-a-team-decision">Contracts still requiring a team decision</h3>
+<ul>
+<li>Market/news data: selected sources; fields, units and currency; event versus publication times; daily acquisition cadence and freshness; null/missing-value rules; eligibility and unavailable-provider behavior; permitted retention and display.</li>
+<li>Scoring: indicator definitions, windows, normalization population, weights, configuration version and driver-selection rule. The exploratory website formula is not automatically the accepted baseline.</li>
+<li>AI model: selected service and version; approved input fields and types; output schema and source association; validation, refusal/failure and fallback behavior; access arrangement. Authentication is separate from analysis content.</li>
+</ul>
+<h2 id="constraints">Constraints</h2>
+<ul>
+<li>Research-only scope; no trading, portfolio execution, guaranteed-return claims or intraday support.</li>
+<li>Preserve input provenance and distinct date meanings. Do not relabel a fixed fixture as the user's requested real data.</li>
+<li>Keep explanation consistent with checked calculations; it must not silently determine or alter the scoring method.</li>
+<li>Do not commit credentials, passwords, private data or service secrets. Do not include credentials or unnecessary personal information in AI analysis content.</li>
+<li>Obtain and record applicable provider conditions before treating service use as assessed. No service agreement or permission is inferred from the design.</li>
+<li>Freeze the demonstration's time/resource envelope before judging SR-04. No numeric latency, cost or accuracy limit is invented here.</li>
+</ul>
+<h3 id="development-environment">Development Environment</h3>
+<ul>
+<li>Python 3.12; FastAPI backend. Direct package versions are in <code>backend/requirements.txt</code>.</li>
+<li>JavaScript browser interface and Node's built-in test runner; CI config uses Node 22.</li>
+<li>Git/GitHub for versioned code and engineering records; GitHub Pages for static hosting only.</li>
+<li>GPT supports reasoning and review; Codex supports implementation and repository work. Follow <a href="https://github.com/yihanzhou818/SYSEN5151/blob/main/AGENTS.md">AGENTS.md</a> and <a href="https://github.com/yihanzhou818/SYSEN5151/blob/main/.codex/5151-workflow.md">.codex/5151-workflow.md</a>.</li>
+<li>Local startup instructions: <a href="https://github.com/yihanzhou818/SYSEN5151/blob/main/README.md">README</a> and <a href="https://github.com/yihanzhou818/SYSEN5151/blob/main/docs/walking-skeleton.md">walking-skeleton guide</a>. A runtime environment is required; opening a static page does not start FastAPI.</li>
+</ul>
+<h2 id="architecture">Architecture</h2>
+<pre><code class="language-text">Research User
+    | stock pair + analysis date
+    v
+Dashboard / UI -- POST /compare --&gt; FastAPI transport
+                                      |
+                                      v
+                               StockLens System
+                                 |          |
+                                 v          v
+                           Market stub   News stub
+                                 \          /
+                                  dated evidence
+                                       |
+                                Ranking stub
+                                       |
+                                AI explanation stub
+                                       |
+                         result -&gt; Dashboard / UI
+                                       |
+                              human inspection
+</code></pre>
+<p>The Python modules keep the modeled participant boundaries identifiable. Calls to simulated providers are local function calls, not external network integrations. Scoring belongs to StockLens; the AI service is intended to explain the score evidence. The Action, Activity, Sequence and behavioral Spider views describe the same UC.1 baseline, rather than independent implementations. See <a href="https://github.com/yihanzhou818/SYSEN5151/blob/main/docs/walking-skeleton.md">walking-skeleton mapping</a> and <a href="https://github.com/yihanzhou818/SYSEN5151/blob/main/docs/adr/0002-provider-and-pages-boundary.md">deployment boundary ADR</a>.</p>
+<h2 id="verification">Verification</h2>
+<h3 id="observed-checks-october-6-2026">Observed checks, October 6, 2026</h3>
+<p>At implementation commit <code>eeb3619</code>:</p>
+<ul>
+<li><code>python3 -m unittest discover -s tests -v</code>: 2 tests passed. They check participant order/evidence handoff and that changing the request never relabels the fixed fixture.</li>
+<li><code>node --test tests/site.test.mjs</code>: 3 tests passed. They check JavaScript/Python fixture parity, exclusion of later outcomes from illustrative scoring, and weighted-contribution arithmetic.</li>
+<li>A local FastAPI instance was started with the declared direct dependencies. Submitting the default query through the browser displayed DEMO_A=60, DEMO_B=40, the fixed explanation and FIXTURE-01 dated 2026-09-18. This is a nominal smoke check, not stakeholder acceptance or a performance measurement.</li>
+</ul>
+<p>The repository has an automated test-and-Pages workflow. Its existence is not evidence of requirement-complete CI: the existing tests are primarily UC.1/illustrative-logic checks, not the Lab Manual's complete set of need-named failing acceptance tests. No new tests or runtime behavior are introduced by this specification update.</p>
+<h3 id="required-reconciliation-and-evidence-work">Required reconciliation and evidence work</h3>
+<ol>
+<li>Link N/SR IDs to implementation locations and appropriately named tests; update the legacy <a href="https://github.com/yihanzhou818/SYSEN5151/blob/main/requirements/TRACEABILITY.md">traceability matrix</a> and <a href="https://github.com/yihanzhou818/SYSEN5151/blob/main/docs/model-code-reconciliation.md">model/code reconciliation</a>.</li>
+<li>Define missing contracts and acceptance cases before implementing real calculations or integrations.</li>
+<li>Add and commit meaningful failing tests for unmet, sufficiently defined obligations, and ensure the automatic build reports those failures. Do not invent tests for criteria that remain undecided.</li>
+<li>Retain versions, commands, outputs and discrepancies for subsequent runs. Re-run affected checks after changes.</li>
+</ol>
+<p>Passing stub tests proves the tested fixture behavior, not financial correctness, source support, AI grounding, schema enforcement or user understanding.</p>
+<h2 id="validation">Validation</h2>
+<p>This section preserves the report's proposed assessment plan. No participant study or completed stakeholder acceptance is claimed. The 80% targets for MOE-01–MOE-03 are inherited planning targets, subject to team confirmation together with sample size and the answer rubric before assessment.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Specification table"><table>
+<thead>
+<tr>
+<th>Requirement / measure</th>
+<th>Proposed acceptance condition</th>
+<th>Method and evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SR-01 / MOE-01</td>
+<td>At least 80% correct, unassisted completion on the first scored attempt; both stocks eligible and assessed with the same date and documented indicator/scoring configuration</td>
+<td>User comparison task plus input/configuration inspection; retain answers, assistance, dates and configuration version.</td>
+</tr>
+<tr>
+<td>SR-02 / MOE-02</td>
+<td>At least 80% identify both requested drivers unassisted; every assessed explanation gives the selected computed drivers and correct values without contradicting the score</td>
+<td>User task plus independent calculation review; retain factor values, weights, outputs and discrepancies.</td>
+</tr>
+<tr>
+<td>SR-03 / MOE-03</td>
+<td>At least 80% locate supporting material and distinguish publication, analysis and market-data dates unassisted; every assessed news claim has inspectable supporting evidence and required dates</td>
+<td>User task plus claim/source review; retain source IDs, supporting references, dates and inaccessible/unsupported items.</td>
+</tr>
+<tr>
+<td>SR-04 / MOE-04</td>
+<td>Agreed UC.1 workflow executes in the documented environment within confirmed time and service-resource limits</td>
+<td>Demonstration against a frozen baseline; retain run, elapsed time, resource-use record and deviations. Undefined limits mean not assessable.</td>
+</tr>
+<tr>
+<td>SR-05 / MOE-05</td>
+<td>100% of the eight requirements have correct originating-need links, related model entities, validation method and explicit evidence status</td>
+<td>Inspect register, report and model; retain review and discrepancies. Recalculate denominator when the baseline changes.</td>
+</tr>
+<tr>
+<td>SR-06 / MOE-06</td>
+<td>A member other than the guide author completes startup, run, shutdown and documented handover or retirement without undocumented instructions</td>
+<td>Observe the complete procedure; retain guide version, assistance, responsibility and transition record.</td>
+</tr>
+<tr>
+<td>SR-07 / MOE-07</td>
+<td>100% provider coverage with no unresolved discrepancy between applicable conditions and observed access, retention or display in scope</td>
+<td>Compare dated conditions with actual use; retain condition-to-use records and decisions. A register alone is insufficient.</td>
+</tr>
+<tr>
+<td>SR-08 / MOE-08</td>
+<td>100% of recorded requests conform to the approved schema, with no credentials or unnecessary personal information in analysis content</td>
+<td>Inspect payloads against schema and task purpose; retain redacted evidence. Approved access is a separate prerequisite.</td>
+</tr>
+</tbody>
+</table></div>
+<p>For the user tasks, both the task-success target and conformance check are necessary. Use the first scored attempt without coaching; assisted, abandoned or incorrect attempts count as unsuccessful. Report numerator, denominator and percentage separately per task. Zero participants or zero relevant observations mean <strong>not assessed</strong>, not 100% success. Finite assessment sets do not prove correctness for all future outputs.</p>
+<p>Freeze cases, configuration, targets, assistance rules and exclusions before collecting results. Record SR/N/MOE identifiers; criterion and artifact versions; date and reviewer/operator codes; assessment scope; observations and discrepancies; evidence references; and a separate pass, fail or not-assessed decision for each requirement. Do not average the eight measures into a score that conceals a failure.</p>
+<h2 id="open-decisions-and-change-control">Open decisions and change control</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Specification table"><table>
+<thead>
+<tr>
+<th>Decision still needed</th>
+<th>Affected requirements</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Eligible universe, indicator definitions, scoring windows/weights/normalization and missing/stale-data handling</td>
+<td>SR-01</td>
+</tr>
+<tr>
+<td>Main-driver selection and explanation conformance rule</td>
+<td>SR-02</td>
+</tr>
+<tr>
+<td>Real source provenance, inspectability, claim support and three-date display</td>
+<td>SR-03</td>
+</tr>
+<tr>
+<td>Frozen demonstration scope, environment, time and service-resource limits</td>
+<td>SR-04</td>
+</tr>
+<tr>
+<td>Repository/model/report reconciliation and retained evidence records</td>
+<td>SR-05</td>
+</tr>
+<tr>
+<td>Selected handover/retirement procedure, responsibilities and independent operator assessment</td>
+<td>SR-06</td>
+</tr>
+<tr>
+<td>Selected providers, dated conditions and actual-use evidence</td>
+<td>SR-07</td>
+</tr>
+<tr>
+<td>Approved AI schema, service access, executable request gate and payload assessment set</td>
+<td>SR-08</td>
+</tr>
+<tr>
+<td>User-study sample, rubric and confirmation of the proposed 80% targets</td>
+<td>SR-01–SR-03</td>
+</tr>
+</tbody>
+</table></div>
+<p>A change to a need, requirement, scoring configuration, provider condition or AI schema requires review of the associated model allocation, interface, implementation, measure and test. Update the report and model together with repository records when the agreed baseline changes. This specification makes the report baseline accessible in GitHub; it does not close the open decisions or authorize unbounded implementation.</p><p class="spec-footer">Published snapshot of SPEC.md · October 6, 2026. Consult the GitHub source for subsequent revisions.</p></article></main></body></html>
