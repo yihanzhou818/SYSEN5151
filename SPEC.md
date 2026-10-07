@@ -15,6 +15,33 @@ Sources:
 
 Read the target requirements separately from the current implementation status. This file does not approve previously unresolved parameters, create new functional requirement IDs, or mark stakeholder validation complete. Earlier repository documents describing requirement derivation as pending reflect the Chapter 2 increment; the SR baseline below now records the report's proposed requirements.
 
+## Milestone 1: needs and acceptance at a glance
+
+A student researcher preparing a two-stock discussion needs a consistent comparison, an explanation they can follow, and evidence they can inspect. StockLens sits between that researcher and external market, news and AI services. The target workflow returns a ranking and its supporting context; the researcher remains responsible for interpreting the result.
+
+The compact view below follows **need → requirement → acceptance condition**. These are summaries for navigation, not replacement requirement statements. The full wording appears under Stakeholder Needs and Requirements; assessment rules and evidence appear under Validation. Acceptance remains proposed and is distinct from the fixed-fixture checks that have passed.
+
+| Need | Traces to | Acceptance summary | Current evidence boundary |
+|---|---|---|---|
+| N-01: consistent comparison | SR-01 / MOE-01 | Both eligible stocks use the same analysis date and documented scoring configuration; proposed user-task target: at least 80% correct unassisted completion. | The fixed fixture runs; eligible-universe and full scoring conformance are not established. |
+| N-02: understandable ranking | SR-02 / MOE-02 | Explanation identifies the selected computed drivers and correct values; proposed target: at least 80% identify both requested drivers unassisted. | Fixed or template explanations; no completed user assessment or real AI grounding check. |
+| N-03: inspectable evidence | SR-03 / MOE-03 | Each assessed news claim has supporting evidence and required dates; proposed target: at least 80% locate sources and distinguish the three dates unassisted. | Fixture source/date display is demonstrated; real source support is not validated. |
+| N-04: feasible delivery | SR-04 / MOE-04 | UC.1 runs within the agreed environment, time and resource baseline. | Nominal path checked; time/resource limits still require confirmation. |
+| N-05: reviewable traceability | SR-05 / MOE-05 | All eight requirements link to needs, model entities, validation methods and evidence status. | Report-derived links recorded; legacy repository records still need reconciliation. |
+| N-06: independent operation | SR-06 / MOE-06 | A non-author completes startup, run, shutdown and handover or retirement without undocumented help. | Run instructions exist; independent operator assessment is not complete. |
+| N-07: appropriate provider use | SR-07 / MOE-07 | All in-scope provider use conforms to applicable access, retention and display conditions. | Stub calls do not establish compliance for future real services. |
+| N-08: appropriate AI inputs | SR-08 / MOE-08 | All assessed requests conform to an approved schema and exclude credentials and unnecessary personal information. | Schema approval and an executable request gate remain open. |
+
+The proposed 80% targets require confirmation of sample size and scoring rules. **Not assessed is not a pass.** This page does not certify satisfaction of SR-01–SR-08.
+
+### Demonstrated scope and deferred work
+
+**This milestone's demonstrated slice:** the UC.1 fixed-fixture path, its participant order, fixture identity, and display of a ranking, explanation and source/date context. The browser research lab separately demonstrates illustrative weighted scoring; it is not a live market-data or AI integration.
+
+**Deferred implementation and assessment:** real provider connections, a grounded AI explanation, approved request-schema enforcement, complete requirement-linked acceptance evidence, provider-use review and independent handover assessment. These remain obligations or decisions in the baseline; calling them deferred does not remove them from scope.
+
+**Outside the system baseline:** automated trading, order execution, personalized portfolio management and intraday support. No response-time threshold is borrowed from another team's example.
+
 ## System of Interest
 
 StockLens is an AI-assisted stock research and ranking platform for student researchers and beginning investors. A research user selects two stocks and an analysis date, obtains a comparison on a consistent basis, and inspects the ranking's explanation and dated supporting evidence. The purpose is to support research and understanding, not to prescribe investment decisions.

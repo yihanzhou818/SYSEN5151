@@ -4,7 +4,11 @@ An AI-assisted stock research concept for students and beginning investors. A re
 
 Group 29: Yihan Zhou, Shuxuan Wang, Henian Li, Xinyuan Yan, David Limmer, Rosa Szurgot.
 
-## Run the Chapter 2 Walking Skeleton
+## Operational concept and milestone status
+
+The report-derived stakeholder baseline is recorded in [SPEC.md](SPEC.md), including need-to-requirement links, proposed acceptance criteria and open decisions. The end-to-end walking skeleton is operational with fixed provider, scoring and AI stubs. This is evidence of the nominal path, not completed stakeholder acceptance.
+
+## Run the Walking Skeleton
 
 ```sh
 python3 -m venv backend/.venv
@@ -18,6 +22,8 @@ Open http://127.0.0.1:8765 and select **Compare fixture**. One request traverses
 `website/` contains the migrated research interface and `skeleton.html`, a browser-only mirror of UC.1. The research lab's numerical data is illustrative and awaits source verification. Its scoring is deterministic; its explanation is a template. This exploratory view is separate from the fixed-stub Chapter 2 deliverable. GitHub Pages hosts static files, not the Python API.
 
 Preview: `python3 -m http.server 8080 --directory website --bind 127.0.0.1`.
+
+Read the [System Specification website page](https://yihanzhou818.github.io/SYSEN5151/specification.html) for a dated, readable snapshot, or [SPEC.md](SPEC.md) for the canonical repository version.
 
 ## Engineering records
 
@@ -38,7 +44,7 @@ Preview: `python3 -m http.server 8080 --directory website --bind 127.0.0.1`.
 python3 -m unittest discover -s tests -v
 node --test tests/site.test.mjs
 ```
-Formal requirement derivation is pending; SPEC.md retains preliminary headings. The course PDF and model supply the conceptual baseline. Proposed user MOEs are not completed test results.
+The proposed SR-01–SR-08 baseline is recorded in SPEC.md. Some older engineering records still describe the Chapter 2 increment and require reconciliation. Proposed user MOEs are not completed test results.
 
 ## Reference and provenance
 
