@@ -22,12 +22,12 @@ Yihan Zhou\\Shuxuan Wang\\Henian Li\\Xinyuan Yan\\David Limmer\\Rosa Szurgot
 \tableofcontents\newpage
 \section{Introduction}
 \subsection{Purpose and Scope}
-This report defines the function architecture of StockLens and evaluates whether its structure supports UC.1, \textit{Compare Stocks \& Evaluate Ranking}. It combines the Chapter 6 direct-trace method with the Chapter 7 first-level decomposition. The deliverables include the Innoslate model, a three-level function hierarchy, inherited and internal IDEF0 interfaces, a function N-squared diagram, functional requirements and a numbered scenario trace. The report presents both model contents and the reasoning behind their organization, following the assignment rubric and Lab Manual Sections 6.2.1, 6.3 and 7.2--7.3\cite{assignment,manual}.
+This report defines the function architecture of StockLens and evaluates whether its structure supports UC.1, \textit{Compare Stocks \& Evaluate Ranking}. It combines the Chapter 6 direct-trace method with the Chapter 7 first-level decomposition. The deliverables include the Innoslate model, a three-level function hierarchy, inherited and internal IDEF0 interfaces, a function N-squared diagram, functional requirements and a numbered scenario trace. The report presents both model contents and the reasoning behind their organization, following the assignment rubric and Lab Manual Sections 6.2.1, 6.3--6.4 and 7.2--7.4\cite{assignment,manual}.
 
 \subsection{Evidence and Method}
 The authoritative model is Innoslate project 659, \textit{AI-Assisted Stock Platform}. The context metafunction is MF.0 (264781); the system-of-interest function is F.0 \textit{Provide Stock Comparisons} (264782). The team-supplied final requirements report is the upstream baseline\cite{baseline}. Existing system requirement numbers and entities are retained. The model revision first established the missing first-level functions, carried down every inherited ICOM, added internal flows, decomposed the hierarchy to three levels, and then reconciled the use-case messages and requirements allocations.
 
-Native diagram exports are reproduced as evidence. Where native boxes abbreviate names, the adjacent tables provide the complete names and IDs. The PowerPoint trace adds editable color and number annotations to the native first-level export. A separate function-level sequence explicitly displays internal flows that are abstracted inside the StockLens lifeline of the native actor sequence. Recorded structural checks support model consistency; they do not establish live-provider performance or stakeholder acceptance.
+Native diagram exports are reproduced as evidence. Where native boxes abbreviate names, the adjacent tables provide the complete names and IDs. The PowerPoint trace adds editable color and number annotations to the native first-level export. A separate function-level sequence explicitly displays internal flows that are abstracted inside the StockLens lifeline of the native actor sequence. Gray exchanges 0 and 9 are now drawn explicitly as configuration and maintainer-status messages, so every numbered IDEF0 exchange has a visible sequence counterpart. Recorded structural checks support model consistency; they do not establish live-provider performance or stakeholder acceptance.
 
 \section{Function Architecture}
 \subsection{Boundary, Concerns and Architecture Drivers}
@@ -36,6 +36,18 @@ StockLens is a research decision-support system. It accepts two eligible stock s
 The final requirements baseline fixes ten candidate symbols, a common cutoff and 21 aligned adjusted-price observations for 20 daily returns. It uses 20-day momentum and unannualized sample volatility with equal weights and average-tie-rank normalization across the same frozen universe. News does not affect the numerical score. No missing prices are imputed and the normalization universe is not silently reduced. Score differences within $10^{-6}$ points are ties; display uses two decimal places\cite{baseline}. These are inherited educational comparison rules, not evidence that the scoring rule predicts investment returns.
 
 Three stakeholder concerns drive the decomposition. Comparable calculations require validation before scoring. Explanations must remain tied to authoritative driver values, so external AI is separated from ranking. Inspectable evidence requires source identities and distinct analysis, observation and publication dates to survive every handoff. Research Configuration is a control on all five functions; it is not a provider response or a per-function physical mechanism. The selected architecture preserves the original system boundary and external ICOM meanings.
+
+\subsubsection{Stakeholder Concerns and Selected Viewpoints}
+The architecture-driver tags retain the upstream candidates: PNFR-01 (understandability) motivates exact computed-driver values and the F.3/F.4 separation; PNFR-02 (operability) motivates versioned configuration, explicit status and a reproducible run procedure; PNFR-03 (evidence inspectability) motivates source/date preservation from F.2 through F.5. These report-level driver tags do not promote unvalidated suitability candidates into passed functional requirements.
+\begin{tabularx}{\linewidth}{@{}p{.23\linewidth}X@{}}\toprule
+Viewpoint & Concern and selected representation\\\midrule
+Boundary and responsibility & Context IDEF0 identifies StockLens, its five external participant functions and performing mechanisms.\\
+Functional structure & Three-level hierarchy and readable branch views separate validation, evidence, calculation, explanation and presentation.\\
+Behavior and continuity & Action/sequence views and the numbered IDEF0 trace show one complete comparison scenario, including control/status context.\\
+Internal interfaces & N-squared matrix and contract v1 show each source, destination and machine-readable handoff.\\
+Requirement assurance & The sixteen-row requirement table links obligations, rationale, MOPs, verification criteria and responsible functions.\\\bottomrule\end{tabularx}
+
+The current physical allocation remains F.0 to StockLens and one mechanism per external context function. First-level physical alternatives and subsystem allocation are staged after this functional lesson, consistent with the explicit mechanism deferral in Section 7.2.2; the functional decomposition does not silently allocate every child to a prematurely selected component.
 
 \subsection{Functional Elements and Three-Level Hierarchy}
 The hierarchy is rooted at F.0, followed by five first-level functions and ten next-level functions. The first level separates responsibilities rather than external participants. Each branch contains two lower-level functions. This gives an overall view of organization while allowing the lower-level names and boundaries to be explained without crowding a single diagram.
@@ -56,8 +68,14 @@ F.5 / 269038 & Present Comparison and Service Status & Assemble and present the 
 }
 \subsubsection{Readable Branch Views}
 \begin{figure}[H]\centering
-\includegraphics[width=.75\linewidth,height=.78\textheight,keepaspectratio]{accept_and_validate_comparison_request_hierarchy_diagram.png}
-\caption{Native branch view for F.1 Accept and Validate Comparison Request.}\label{fig:branch1}\end{figure}
+\begin{tikzpicture}[nodebox/.style={draw,rounded corners=2pt,align=center,text width=4.8cm,minimum height=1.4cm,font=\small,inner sep=6pt}]
+\node[nodebox,fill=gray!12] (p) at (0,0) {\textbf{F.1}\\Accept and Validate Comparison Request\\{\scriptsize Entity 269034}};
+\node[nodebox] (c0) at (-2.9,-3) {\textbf{F.1.1}\\Validate Stock Pair Eligibility\\{\scriptsize Entity 269043}};
+\draw[->] (p.south) -- (0,-1.25) -| (c0.north);
+\node[nodebox] (c1) at (2.9,-3) {\textbf{F.1.2}\\Preserve Comparison Date and Request Identity\\{\scriptsize Entity 269044}};
+\draw[->] (p.south) -- (0,-1.25) -| (c1.north);
+\end{tikzpicture}
+\caption{Readable projection of the saved native branch for F.1 Accept and Validate Comparison Request.}\label{fig:branch1}\end{figure}
 \begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.35\linewidth}>{\raggedright\arraybackslash}p{0.6\linewidth}@{}}
 \caption{Definitions for the F.1 branch.}\\
 \toprule Lower-level function & Definition\\\midrule\endfirsthead
@@ -66,8 +84,14 @@ F.1.1 Validate Stock Pair Eligibility & Check that both supplied symbols belong 
 F.1.2 Preserve Comparison Date and Request Identity & Normalize the common analysis date and associate it with the selected pair and request identifier so downstream results remain attributable to the original request.\\[5pt]
 \bottomrule\end{longtable}
 \begin{figure}[H]\centering
-\includegraphics[width=.75\linewidth,height=.78\textheight,keepaspectratio]{acquire_and_validate_dated_evidence_hierarchy_diagram.png}
-\caption{Native branch view for F.2 Acquire and Validate Dated Evidence.}\label{fig:branch2}\end{figure}
+\begin{tikzpicture}[nodebox/.style={draw,rounded corners=2pt,align=center,text width=4.8cm,minimum height=1.4cm,font=\small,inner sep=6pt}]
+\node[nodebox,fill=gray!12] (p) at (0,0) {\textbf{F.2}\\Acquire and Validate Dated Evidence\\{\scriptsize Entity 269035}};
+\node[nodebox] (c0) at (-2.9,-3) {\textbf{F.2.1}\\Request Dated Market and News Records\\{\scriptsize Entity 269045}};
+\draw[->] (p.south) -- (0,-1.25) -| (c0.north);
+\node[nodebox] (c1) at (2.9,-3) {\textbf{F.2.2}\\Validate Evidence Dates and Provenance\\{\scriptsize Entity 269046}};
+\draw[->] (p.south) -- (0,-1.25) -| (c1.north);
+\end{tikzpicture}
+\caption{Readable projection of the saved native branch for F.2 Acquire and Validate Dated Evidence.}\label{fig:branch2}\end{figure}
 \begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.35\linewidth}>{\raggedright\arraybackslash}p{0.6\linewidth}@{}}
 \caption{Definitions for the F.2 branch.}\\
 \toprule Lower-level function & Definition\\\midrule\endfirsthead
@@ -76,8 +100,14 @@ F.2.1 Request Dated Market and News Records & Issue separately addressed market 
 F.2.2 Validate Evidence Dates and Provenance & Check symbol coverage, required observations, source identifiers and publication dates; retain distinct analysis, observation and publication dates in the validated evidence record.\\[5pt]
 \bottomrule\end{longtable}
 \begin{figure}[H]\centering
-\includegraphics[width=.75\linewidth,height=.78\textheight,keepaspectratio]{calculate_and_explain_ranking_drivers_hierarchy_diagram.png}
-\caption{Native branch view for F.3 Calculate and Explain Ranking Drivers.}\label{fig:branch3}\end{figure}
+\begin{tikzpicture}[nodebox/.style={draw,rounded corners=2pt,align=center,text width=4.8cm,minimum height=1.4cm,font=\small,inner sep=6pt}]
+\node[nodebox,fill=gray!12] (p) at (0,0) {\textbf{F.3}\\Calculate and Explain Ranking Drivers\\{\scriptsize Entity 269036}};
+\node[nodebox] (c0) at (-2.9,-3) {\textbf{F.3.1}\\Compute Indicators and Normalize Scores\\{\scriptsize Entity 269047}};
+\draw[->] (p.south) -- (0,-1.25) -| (c0.north);
+\node[nodebox] (c1) at (2.9,-3) {\textbf{F.3.2}\\Identify Ranking Drivers and Evidence\\{\scriptsize Entity 269048}};
+\draw[->] (p.south) -- (0,-1.25) -| (c1.north);
+\end{tikzpicture}
+\caption{Readable projection of the saved native branch for F.3 Calculate and Explain Ranking Drivers.}\label{fig:branch3}\end{figure}
 \begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.35\linewidth}>{\raggedright\arraybackslash}p{0.6\linewidth}@{}}
 \caption{Definitions for the F.3 branch.}\\
 \toprule Lower-level function & Definition\\\midrule\endfirsthead
@@ -86,8 +116,14 @@ F.3.1 Compute Indicators and Normalize Scores & Calculate the documented indicat
 F.3.2 Identify Ranking Drivers and Evidence & Select computed ranking drivers and their exact values and retain supporting dated sources without allowing generated narrative to alter calculated scores.\\[5pt]
 \bottomrule\end{longtable}
 \begin{figure}[H]\centering
-\includegraphics[width=.75\linewidth,height=.78\textheight,keepaspectratio]{coordinate_grounded_ai_explanation_hierarchy_diagram.png}
-\caption{Native branch view for F.4 Coordinate Grounded AI Explanation.}\label{fig:branch4}\end{figure}
+\begin{tikzpicture}[nodebox/.style={draw,rounded corners=2pt,align=center,text width=4.8cm,minimum height=1.4cm,font=\small,inner sep=6pt}]
+\node[nodebox,fill=gray!12] (p) at (0,0) {\textbf{F.4}\\Coordinate Grounded AI Explanation\\{\scriptsize Entity 269037}};
+\node[nodebox] (c0) at (-2.9,-3) {\textbf{F.4.1}\\Construct Approved Score-Evidence Package\\{\scriptsize Entity 269050}};
+\draw[->] (p.south) -- (0,-1.25) -| (c0.north);
+\node[nodebox] (c1) at (2.9,-3) {\textbf{F.4.2}\\Check Explanation Against Computed Evidence\\{\scriptsize Entity 269051}};
+\draw[->] (p.south) -- (0,-1.25) -| (c1.north);
+\end{tikzpicture}
+\caption{Readable projection of the saved native branch for F.4 Coordinate Grounded AI Explanation.}\label{fig:branch4}\end{figure}
 \begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.35\linewidth}>{\raggedright\arraybackslash}p{0.6\linewidth}@{}}
 \caption{Definitions for the F.4 branch.}\\
 \toprule Lower-level function & Definition\\\midrule\endfirsthead
@@ -96,8 +132,14 @@ F.4.1 Construct Approved Score-Evidence Package & Prepare the external AI reques
 F.4.2 Check Explanation Against Computed Evidence & Compare the returned narrative with authoritative driver values and sources; expose a checked explanation or an unavailable state while preserving calculated ranking.\\[5pt]
 \bottomrule\end{longtable}
 \begin{figure}[H]\centering
-\includegraphics[width=.75\linewidth,height=.78\textheight,keepaspectratio]{present_comparison_and_service_status_hierarchy_diagram.png}
-\caption{Native branch view for F.5 Present Comparison and Service Status.}\label{fig:branch5}\end{figure}
+\begin{tikzpicture}[nodebox/.style={draw,rounded corners=2pt,align=center,text width=4.8cm,minimum height=1.4cm,font=\small,inner sep=6pt}]
+\node[nodebox,fill=gray!12] (p) at (0,0) {\textbf{F.5}\\Present Comparison and Service Status\\{\scriptsize Entity 269038}};
+\node[nodebox] (c0) at (-2.9,-3) {\textbf{F.5.1}\\Render Comparison Drivers Dates and Citations\\{\scriptsize Entity 269052}};
+\draw[->] (p.south) -- (0,-1.25) -| (c0.north);
+\node[nodebox] (c1) at (2.9,-3) {\textbf{F.5.2}\\Report Research Service Status\\{\scriptsize Entity 269053}};
+\draw[->] (p.south) -- (0,-1.25) -| (c1.north);
+\end{tikzpicture}
+\caption{Readable projection of the saved native branch for F.5 Present Comparison and Service Status.}\label{fig:branch5}\end{figure}
 \begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.35\linewidth}>{\raggedright\arraybackslash}p{0.6\linewidth}@{}}
 \caption{Definitions for the F.5 branch.}\\
 \toprule Lower-level function & Definition\\\midrule\endfirsthead
@@ -137,6 +179,15 @@ Inputs supply the selected request, dated observations, dated evidence and expla
 The lower-level allocations were checked in both directions: every first-level received flow is received by at least one child, and every first-level generated flow is generated by at least one child. Lower-level LF.01--LF.05 connect the two functions in each branch. This removes the I/O tunnels introduced when the hierarchy was expanded. It does not require physical subsystem allocation at this stage.
 
 \subsection{Internal Interfaces and N-Squared Analysis}
+\begin{table}[H]\centering\small
+\begin{tabular}{@{}lccccc@{}}\toprule Source / destination & F.1 & F.2 & F.3 & F.4 & F.5\\\midrule
+F.1 & --- & IF.01 & & & \\
+F.2 & & --- & IF.02 & & \\
+F.3 & & & --- & IF.03 & IF.03\\
+F.4 & & & & --- & IF.04\\
+F.5 & & & & & ---\\\bottomrule\end{tabular}
+\caption{Readable N-squared cross-check. Five populated off-diagonal cells represent four distinct internal I/O entities. Empty cells do not imply a hidden connection.}\end{table}
+
 \begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.09\linewidth}>{\raggedright\arraybackslash}p{0.27\linewidth}>{\raggedright\arraybackslash}p{0.23\linewidth}>{\raggedright\arraybackslash}p{0.35\linewidth}@{}}
 \caption{First-level internal interfaces from the saved model.}\\
 \toprule ID & Internal exchange & Direction & Purpose\\\midrule\endfirsthead
@@ -221,7 +272,7 @@ TR-04 & The F.0 decomposition had no first-level functions or internal trace. & 
 \subsection{Pencil-Test Result and Assessment Limits}
 The nominal path is continuous: pair/date $\rightarrow$ F.1 $\rightarrow$ IF.01 $\rightarrow$ F.2; each provider query has its corresponding return; IF.02 enters F.3; IF.03 reaches both F.4 and F.5; F.4 sends the external package and checks the return; IF.04 reaches F.5; the comparison reaches the Research User. Both IF.03 branches are explicit and their destinations are named. No result is attributed to an unrelated function without an internal flow.
 
-The structural review checked five first-level children, two lower-level children per branch, receive/generate inheritance at every branch, absence of first-level mechanism allocation, and coverage of all sixteen existing system requirements. All 22 recorded structural checks passed against the saved entity records. The four first-level internal I/O entities have one generating first-level function each; IF.03 has two receiving functions and the other three have one each. The resulting N-squared cells agree with the IDEF0 and trace ledger.
+The structural review checked five first-level children, two lower-level children per branch, receive/generate inheritance at every branch, absence of first-level mechanism allocation, and coverage of all sixteen existing system requirements. All 22 original structural checks passed against the saved entity records. The submission audit extends these to 64 checks, including direct lower-level/use-case/flow requirement links, six context mechanisms, all inherited ICOMs and exact first-level internal endpoints; all 64 passed. The four first-level internal I/O entities have one generating first-level function each; IF.03 has two receiving functions and the other three have one each. The resulting N-squared cells agree with the IDEF0 and trace ledger.
 
 These checks establish the nominal model's structural continuity, not successful execution of every external-service or human task. Failure handling remains governed by the final requirements baseline: invalid core data yields no ranking, absent qualifying news permits an explicitly calculation-only result, and AI timeout/validation failure preserves valid calculations while marking explanation unavailable. Real-service performance, source permission/support and human comprehension need their own retained evidence.
 
@@ -259,7 +310,7 @@ MOP-01 measures common-basis conforming comparisons over assessed comparisons; M
 \subsection{Requirements Management and Evidence Status}
 Native satisfaction relations now allocate the sixteen requirements across F.1--F.5; F.0 retains overall responsibility. F.1 carries the request/configuration and user-interface obligations, F.2 carries acquisition and provider-interface obligations, F.3 carries the top-level comparison calculation, F.4 carries the AI package/return/interface obligations, and F.5 carries comparison delivery, service status and maintenance-interface obligations. The user interface spans both request and result directions even where a single native allocation records its principal owner.
 
-The requirement diagram retains the native upstream and verification relationships. A satisfaction or verified-by link is not a passed test. The supplied final requirements report records prior controlled results and full-plan limitations; this revision does not relabel those historical runs as new external-service or stakeholder observations. No user-study participants, live provider selection, real AI behavior or new latency measurements are claimed here.
+The requirement diagram retains the native upstream and verification relationships. A satisfaction or verified-by link is not a passed test. The supplied final requirements report records prior controlled results and full-plan limitations; this revision does not relabel those historical runs as new external-service or stakeholder observations. No user-study participants, live provider selection, real AI behavior or external-service latency measurements are claimed here.
 \begin{figure}[H]\centering
 \includegraphics[width=\linewidth,height=.78\textheight,keepaspectratio]{requirements-traceability.png}
 \caption{Native requirement traceability view rooted at 1.4.1 (264940), including its current satisfaction and upstream relationships.}\label{fig:reqtrace}\end{figure}
@@ -269,26 +320,76 @@ The model work was executed in Innoslate, not only drafted in this report. Saved
 
 The evidence package contains native PNG exports, the editable two-slide PowerPoint trace, UI-read entity/relationship records, the use-case baseline record and the 22-check consistency result. Those records can be compared with the live model by stable entity ID. A model change after export requires rechecking and re-exporting the affected figures; successful LaTeX compilation alone is not a model-consistency check.
 
-Lab Manual Sections 6.4 and 7.4 additionally describe a software endpoint audit and contract-driven module refactoring. These are separate from the structural checks reported here. The GitHub synchronization requested for this revision preserves the report, source, figures and model-operation evidence. It must not be interpreted as evidence that all software endpoints, real-provider contracts or implementation tests have been completed. The supplied final requirements report remains the source for its earlier software-run results; this report does not fabricate a new successful product build.
+\subsection{Native Intelligence Review and Disposition}
+Innoslate Intelligence was rerun on project 659 after the corrections. It analyzed 266 entities, including 76 Actions and 30 Input/Outputs. Fourteen lower-level/use-case Actions and eighteen derived I/O entities received direct requirement links. The final native I/O Analysis passes all six applicable heuristics (100\%). The machine-readable model audit independently passes 64 checks; it does not use the project's global heuristic percentage as an acceptance score.
+
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{.28\linewidth}>{\raggedright\arraybackslash}p{.66\linewidth}@{}}\toprule
+Finding class & Disposition for this assignment\\\midrule\endhead
+Missing requirement links on current lower-level/use-case Actions and derived flows & Corrected in the live model. Ten lower-level functions, four use-case actions and eighteen derived I/O records now have direct links to the corresponding retained requirements.\\[4pt]
+No performing Asset on first-level/lower-level functions & Accepted staged exception under Lab Manual 7.2.2. The six functions actually shown on the context IDEF0 each retain exactly one mechanism. No premature physical architecture is invented.\\[4pt]
+Multiple I/O records satisfying one requirement & Accepted refinement: the same boundary obligation is realized by the carried-down interface and its lower-level request/evidence handoffs. The trace ledger and contract identify the distinct flows; this is not an unresolved duplicate flow.\\[4pt]
+Ambiguous-word heuristics on current names/descriptions & Reviewed in context. ``Common'' means the same recorded analysis date; ``Present'' is the required verb in F.5; ``both'' denotes exactly the two selected symbols. Full definitions and contract fields remove referential ambiguity.\\[4pt]
+Old airport requirements, unnamed exploratory entities and legacy subsystem findings & Retained as historical/out-of-scope findings, not deleted to inflate a score. Their text and the final raw Intelligence output are retained in the evidence package. They are not members of the selected StockLens F.0 hierarchy or the sixteen-row requirement baseline.\\[4pt]
+Physical conduit completeness at AI/UI/user assets & Deferred physical-interface follow-up. Functional I/O continuity is checked at the selected context and first level; conduit/subsystem allocation follows the physical-architecture lesson and is not falsely closed by this functional audit.\\[4pt]
+Unallocated logical containers, human-inspection and planned verification actions & Reviewed as containers, included user behavior or verification plans rather than unimplemented first-level calculations. Their links are not represented as passed human or product tests.\\\bottomrule\end{longtable}
+
+\begin{figure}[H]\centering
+\includegraphics[width=\linewidth,height=.65\textheight,keepaspectratio]{intelligence-verified.png}
+\caption{Native Intelligence evidence retained after correction. Global legacy findings remain visible and have scoped dispositions.}\label{fig:intelligence}\end{figure}
+
+\subsection{Chapter 6.4: Product Entry-Point Audit}
+The actual product baseline was located in the retained StockLen repository at commit a1f7067, the source of the prior requirements report's controlled verification. Work was performed in an isolated copy. The older SYSEN5151 walking skeleton was not mistaken for that later baseline. The delivered product source records the complete audit in \texttt{docs/route-table.md}.
+
+Ten HTTP routes were found before the audit. The automatically exposed Swagger, ReDoc and public OpenAPI routes had no modeled user task and were disabled. Seven explicit routes remain: two legacy fixture routes (\texttt{GET /} and \texttt{POST /compare}) and five controlled research routes (page, comparison, status, configuration and inspectable source). The current comparison route traces to UC.1 and F.1--F.5; status/configuration trace to the already modeled maintainer context at steps 0 and 9; source inspection supports UC.1.8 and the included source-inspection behavior. A runtime test fixes the final route set, so a hidden documentation endpoint cannot silently reappear.
+
+The audit also enumerates browser events and launch/build/verification commands. The inherited historical sandbox allowed a different sentiment-weighted scoring method, more than two selected stocks and subsequent-return inspection. Its four interactive control groups and dead scripts were removed from the delivered product copy. The retained fixed-fixture mirror is clearly labeled and cannot relabel demonstration values as a real requested result. Lifecycle and verification commands are traced to their support purpose, not counted as extra research use cases. Human inspection remains a user action over displayed evidence; it is not assigned a fabricated calculation endpoint. The entry-point mapping is retained for review.
+
+\subsection{Chapter 7.4: Internal Contract Before Refactoring}
+The authority chain is the saved model's flow list, then \texttt{contracts/api-v1.yaml}, then generated server signatures/client methods, then the implementation. The OpenAPI 3.1 contract is written in JSON-compatible YAML and defines all four internal flows and five directed connections. It specifies operation request/response schemas, types, price/ratio/score units, configuration identity, date/source association and failure behavior. The logical operation paths document in-process boundaries; they are not additional public endpoints.
+
+\begin{tabularx}{\linewidth}{@{}p{.15\linewidth}p{.28\linewidth}X@{}}\toprule
+Flow & Operation / destination & Contracted exchange\\\midrule
+IF.01 & F.2 acquire\_evidence & ValidatedRequest to DatedEvidence; reject extra fields, wrong configuration version or ineligible request.\\
+IF.02 & F.3 calculate\_ranking & DatedEvidence to ComputedRecord; retain the full ten-stock normalization universe and reject missing/nonpositive/nonfinite observations.\\
+IF.03 & F.4 check\_explanation; F.5 presentation join & One ComputedRecord is copied to both destinations. AI receives only the checked score/evidence package; no narrative may replace numerical scores.\\
+IF.04 & F.5 present\_comparison & CheckedExplanation includes comparison identity, availability and checked text or null; mismatched identity is rejected.\\\bottomrule\end{tabularx}
+
+The generated client validates every internal request and response. FunctionalServer implements F.1--F.5, and ResearchRuntime follows those boundaries once per comparison. The former duplicate calculation around AI coordination is removed; the F.0 public facade is retained for compatibility. Configuration remains an immutable injected control snapshot, with its version checked at every handoff. ADR-0004 records this divergence and names F.0, F.1--F.5, IF.01--IF.04 and the affected requirement entities. The contract and implementation are versioned in the delivered local repository and its reproducible source archive. The designated GitHub report folder includes that product evidence archive without silently replacing the separate historical application baseline.
+
+\subsection{Executed Verification and Reproduction}
+All 34 Python unit/integration tests passed: 26 retained tests, including the sixteen requirement-linked controlled cases and independent Decimal/direct-counting arithmetic, plus eight new contract/route tests. The new tests check schema rejection on both request and response, configuration mismatch, unrelated explanation identity, immutable score fan-out, the five-function execution order, generated-contract hash agreement and the final public route set. Three additional JavaScript checks passed for browser-fixture parity, preservation of fixture/request identity and removal of orphan website controls with a clean static-site build. The two retired sandbox tests were replaced because their feature was removed; scoring conformance remains covered by the independent Python oracle. A separate deliberately corrupted ranking helper is rejected by the independent oracle; the tests are not weakened to match the implementation.
+
+Actual loopback HTTP checks passed for request preservation, invalid symbols/date rejection, status/configuration behavior and resolvable synthetic source links. Twenty serial offline comparison requests were executed. Their descriptive nearest-rank P95 was 0.003376 seconds; this is local synthetic API timing, not a browser-complete or real-service latency claim. The actual browser was also exercised: a valid comparison displayed two-decimal scores, both computed drivers and source/publication dates; an unknown symbol cleared the old result and displayed a failure. The screenshot below is from that run. No external provider or AI request was made.
+
+\begin{figure}[H]\centering
+\includegraphics[width=\linewidth,height=.64\textheight,keepaspectratio]{browser-verified.png}
+\caption{Actual browser execution of the refactored controlled product. Synthetic provenance and unavailable external AI are explicitly displayed.}\label{fig:browser}\end{figure}
+
+To reproduce, extract \texttt{StockLens\_Chapter6\_7\_Product.zip}; install \texttt{requirements-ch4-lock.txt} into a virtual environment; regenerate with \texttt{python scripts/generate\_internal\_stubs.py}; run \texttt{python -m unittest discover -s tests -v} and \texttt{python scripts/check\_ch4\_http.py}. Start \texttt{python -m walking\_skeleton} and open \texttt{http://127.0.0.1:8765/research}. The product archive includes source, the exact internal contract, generated stubs, ADR, entry-point table and new evidence logs. The report package separately includes native model records, all 64 structural check results and the editable PowerPoint trace.
+
+\subsection{Submission Boundary}
+The deliverable is one integrated PDF containing the Chapter 6 tracework and Chapter 7 architecture, with explanatory text, ICOM, three-level hierarchy, readable branch projections, N-squared view, requirement rationale/MOP/verification table and team contributions. One saved first-level IDEF0 is the common baseline for the tracing figures. PowerPoint and machine-readable/source evidence accompany the PDF as supporting artifacts; they do not replace the required Word/PDF submission format.
+
+The supplied requirements report's unperformed real-service tests, independent handover and stakeholder studies remain unperformed; architecture verification criteria do not imply those tests have passed. The native global heuristic findings are disclosed with scoped dispositions rather than misrepresented as a clean global project. Canvas remains unsubmitted; this package prepares the artifacts for submission.
 
 \section{Summary}
 The revised model has a three-level functional hierarchy and a first-level IDEF0 with complete inherited ICOM allocation and four named internal exchanges. The N-squared view records five directed internal connections, including the authoritative score-record fan-out. Independent provider queries and clarified message names make the native use-case view easier to reconcile with the functional architecture. The numbered PowerPoint IDEF0 trace and function-level sequence use one common ledger and expose every first-level handoff needed by the selected nominal scenario.
 
-All 22 saved structural checks passed, and every inherited first-level I/O is allocated to a lower-level function. These results support the architecture model and its traceability. Software behavior, provider suitability and stakeholder comprehension remain governed by their separate evidence and acceptance criteria.
+All 64 submission-model checks and all 34 controlled software tests passed. The model, numbered diagrams, machine-readable interface contract and refactored F.1--F.5 implementation agree on the four internal flows and five directed links. Live-provider suitability and stakeholder comprehension remain governed by their separate evidence and acceptance criteria.
 
 \section{Team Contribution Table}
-This table records this revision without converting the earlier proposed work split into completed contributions.
-\par\noindent\begin{tabularx}{\linewidth}{@{}p{.24\linewidth}X@{}}\toprule
-Student & Contribution recorded for this revision\\\midrule
-Yihan Zhou & Directed the model/report update; AI-assisted Innoslate editing, entity reconciliation, figure export, trace annotation and report integration.\\
-Shuxuan Wang & No new individual contribution recorded for this revision; prior requirements-baseline contributions remain in the supplied report.\\
-Henian Li & No new individual contribution recorded for this revision; prior requirements-baseline contributions remain in the supplied report.\\
-Xinyuan Yan & No new individual contribution recorded for this revision; prior model-baseline contributions remain in the supplied report.\\
-David Limmer & No new individual contribution recorded for this revision.\\
-Rosa Szurgot & No new individual contribution recorded for this revision.\\\bottomrule\end{tabularx}\par
+The table separates assigned responsibilities for this submission from previously recorded contribution evidence. The assigned work is not presented as a new independently verified completion record. N/A indicates no completed contribution reported for this assignment.
+\par\noindent\begin{tabularx}{\linewidth}{@{}p{.22\linewidth}X@{}}\toprule
+Student & Assigned responsibility and recorded contribution\\\midrule
+Yihan Zhou & Report integration, model consistency and product verification. Coordinated model and report revisions, contract refactoring and verification.\\
+Shuxuan Wang & Functional hierarchy and IDEF0 discussion. Earlier team contribution: non-functional candidates, stakeholder/MOS links and technical risks reused as architecture drivers.\\
+Henian Li & Functional requirements, MOPs and verification table. Earlier team contribution: sixteen-row RVTM, verification criteria and evidence review retained as the requirement baseline.\\
+Xinyuan Yan & Use-case tracing, N-squared analysis and interface review. Earlier team contribution: functional architecture diagrams, relationships and ICOM consistency review reused as the model baseline.\\
+David Limmer & N/A\\
+Rosa Szurgot & N/A\\\bottomrule\end{tabularx}\par
 
 \begin{thebibliography}{9}
-\bibitem{manual} SYSEN 5151. \textit{Foundations of Systems Engineering Lab Manual}, Version 3.0, September 7, 2026. Sections 6.2.1, 6.3, 7.2--7.3 and related assessment criteria.
+\bibitem{manual} SYSEN 5151. \textit{Foundations of Systems Engineering Lab Manual}, Version 3.0, September 7, 2026. Sections 6.2.1, 6.3--6.4, 7.2--7.4 and related assessment criteria.
 \bibitem{assignment} SYSEN 5151. \href{https://canvas.cornell.edu/courses/92732/assignments/981139}{\textit{Architecture Definition: Function}}, Canvas assignment and 100-point rubric. Due October 25, 2026.
 \bibitem{baseline} Group 29. \textit{StockLens System Requirements Definition}, final report supplied by the user, October 18, 2026; authorized baseline v0.1, original system requirements and verification limits.
 \bibitem{model} Group 29. \href{https://cloud.innoslate.com/cornell/p/659/diagrams}{\textit{AI-Assisted Stock Platform}}, Innoslate project 659. Model entities and native figures reviewed for this revision.
@@ -300,9 +401,9 @@ Criterion & Points & Evidence in this report\\\midrule
 Integrated report & 5 & Purpose, modeling rationale, assumptions, coherent discussion and contribution table.\\
 Flow consistency & 40 & Corrected native use case, two numbered trace figures, complete mapping ledger, resolved findings and scoped pencil test.\\
 IDEF0 & 25 & Native context/first-level figures, all ten inherited ICOMs, four internal exchanges and boundary discussion.\\
-Function hierarchy & 10 & Three-level native overview, five native branch views and complete lower-level definitions.\\
+Function hierarchy & 10 & Three-level native overview, five readable branch projections and complete lower-level definitions.\\
 Functional requirements & 15 & Sixteen retained shall statements, upstream relationships, descriptions, rationale, MOPs and verification criteria.\\
 N-squared & 5 & Native matrix and explicit interpretation of all five internal connections.\\\bottomrule
 \end{tabularx}\par
-The table records deliverable coverage, not a predicted grade. The package retains model snapshots and check results for audit; no unperformed software or human validation is inferred from report completeness.
+The table records deliverable coverage, not a predicted grade. The package retains model snapshots, 64 model checks, 34 executed controlled tests, HTTP/browser evidence and a contract-first product source archive. Unperformed real-service and human validation are not inferred from report completeness.
 \end{document}
